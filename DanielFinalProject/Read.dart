@@ -124,4 +124,44 @@ class Read{
         average = overall / tempes.length;
         return average;
     }
+    int engineWork(String fileToRead) {
+      String text = File(fileToRead).readAsStringSync();
+
+        List<dynamic> OGdata = jsonDecode(text);
+        List<Map<String, dynamic>> data = OGdata.cast<Map<String, dynamic>>();
+
+        List<String> keys = data.expand((map) => map.keys).toList(); 
+        List<dynamic> values = data.expand((map) => map.values).toList();
+        List<dynamic> tempes = []; 
+        List<dynamic> tempesI = [];
+        List<dynamic> tempesD = [];
+        List<String> times = [];
+        int engineWorkedWell = 0;
+
+        for(int i = 0; i < keys.length; i++) {
+            if(keys.elementAt(i) == "time") {
+                times.add(values.elementAt(i));
+            } else {
+                tempes.add(values.elementAt(i));
+                if(values.elementAt(i) % 1 == 0) {
+                    tempesI.add(values.elementAt(i));
+                } else {
+                    tempesD.add(values.elementAt(i));
+                }
+            }
+        }
+        for(int u = 0; u < tempesI.length; u++) {
+            if(tempesI.elementAt(u).toDouble() > 25) {
+              engineWorkedWell++;
+            }
+        }
+        for(int u = 0; u < tempesD.length; u++) {
+            if(tempesD.elementAt(u).toDouble() > 25) {
+              engineWorkedWell++;
+            }
+        }
+        print("result:");
+        return engineWorkedWell;
+    
+    }
 }
