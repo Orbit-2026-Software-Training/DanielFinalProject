@@ -111,6 +111,7 @@ class Read{
 
 
     }
+
     jokeAPI(String url) async {
 
         int longestJoke = 0;
@@ -134,7 +135,7 @@ class Read{
               break;
             }
           }
-          print(joke);
+          
           if(joke.length > longestJoke) {
             longestJoke = joke.length;
           } else if(joke.length < shortestJoke) {
@@ -142,6 +143,7 @@ class Read{
           }
           overallJokes += joke.length;
         }
+
         avregeJoke = (overallJokes / 10);
         print(avregeJoke);
         print(longestJoke);
