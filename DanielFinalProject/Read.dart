@@ -135,7 +135,7 @@ class Read{
               break;
             }
           }
-          
+
           if(joke.length > longestJoke) {
             longestJoke = joke.length;
           } else if(joke.length < shortestJoke) {
@@ -149,5 +149,23 @@ class Read{
         print(longestJoke);
         print(shortestJoke);
  
+    }
+    List sort(String fileToRead) {
+      String text = File(fileToRead).readAsStringSync();
+
+        List<dynamic> OGdata = jsonDecode(text);
+        List<Map<String, dynamic>> data = OGdata.cast<Map<String, dynamic>>();
+
+        List<String> keys = data.expand((map) => map.keys).toList(); 
+        List<dynamic> values = data.expand((map) => map.values).toList();
+        List<dynamic> tempes = []; 
+
+        for(int i = 0; i < keys.length; i++) {
+            if(keys.elementAt(i) != "time") {
+                    tempes.add(values.elementAt(i));
+            }
+        }
+        tempes.sort();
+        return tempes;
     }
 }
