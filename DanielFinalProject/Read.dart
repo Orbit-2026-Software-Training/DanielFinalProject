@@ -1,6 +1,7 @@
 import 'Joke.dart';
 import 'dart:convert';
 import 'dart:io';
+
 class Read{
   Joke joke = new Joke();
   num TdiffN = 0;
@@ -13,12 +14,16 @@ class Read{
   List<Map<String, dynamic>> data = [];
   List<dynamic> values = [];
   List<dynamic> tempes = [];
-
   List<String> keys = [];
 
+  final File file = File(r"DanielFinalProject\log");
+
   Read(String fileToRead) {
+    file.writeAsStringSync('constructor called\n', mode: FileMode.append);
+
     text = File(fileToRead).readAsStringSync();
-    
+    file.writeAsStringSync('file found\n', mode: FileMode.append);
+
     OGdata = jsonDecode(text);
     data = OGdata.cast<Map<String, dynamic>>();
 
@@ -31,45 +36,57 @@ class Read{
       }
     }
   }
-    num highstNum(String fileToRead) {
-        num biggestTemp = 0;  
+    num highestNum(String fileToRead) {
+        file.writeAsStringSync('highest Num called \n', mode: FileMode.append);
+        num biggestTemp = 0;
 
+        file.writeAsStringSync('for loop inside highest Num called \n', mode: FileMode.append);
         for(int y = 0; y < tempes.length; y++) {
             if(tempes.elementAt(y) > biggestTemp) {
                 biggestTemp = tempes.elementAt(y);
             }
         }
+        file.writeAsStringSync('highest Num returnd \n', mode: FileMode.append);
         return biggestTemp;
     }
     num lowestNum(String fileToRead) {
+        file.writeAsStringSync('highest Num called \n', mode: FileMode.append);
         double lowestTemp = 10000.0;
 
+        file.writeAsStringSync('for loop inside lowest Num called \n', mode: FileMode.append);
         for(int y = 0; y < tempes.length; y++) {
             if(tempes.elementAt(y) < lowestTemp) {
                 lowestTemp = tempes.elementAt(y);
             }
         }
+        file.writeAsStringSync('lowest Num returnd \n', mode: FileMode.append);
         return(lowestTemp);
     }
-    num avrege(String fileToRead){
+    num avrege(String fileToRead) {
+      file.writeAsStringSync('avrege called \n', mode: FileMode.append);
         double overall = 0;
         double average = 0;
 
+        file.writeAsStringSync('for loop in avrege called \n', mode: FileMode.append);
         for(int u = 0; u < tempes.length; u++) {
             overall += tempes.elementAt(u);
         }
         average = overall / tempes.length;
+        file.writeAsStringSync('avrege returnd \n', mode: FileMode.append);
         return average;
     }
     num engineWork(String fileToRead) {
+        file.writeAsStringSync('engine called \n', mode: FileMode.append);
         int engineWorkedWell = 0;
 
+        file.writeAsStringSync('for loop insidee engine called \n', mode: FileMode.append);
         for(int u = 0; u < tempes.length; u++) {
             if(tempes.elementAt(u) > 25.0) {
               engineWorkedWell++;
             }
         }
         print("result:");
+        file.writeAsStringSync('engine returnd \n', mode: FileMode.append);
         return engineWorkedWell;
 
     }
@@ -79,8 +96,9 @@ class Read{
         return tempes;
     }
 
-    (num, num) precentErorTempes() {
-      num max = highstNum(r"DanielFinalProject\data.json");
+    (num, num) precentErrorTempes() {
+      file.writeAsStringSync('precentErorTempes called \n', mode: FileMode.append);
+      num max = highestNum(r"DanielFinalProject\data.json");
       num min = lowestNum(r"DanielFinalProject\data.json");
       num avrg = avrege(r"DanielFinalProject\data.json");
 
@@ -97,56 +115,67 @@ class Read{
       }
       TdiffN = TdiffN / avrg * 100;
 
+      file.writeAsStringSync('precentErorTempes returned \n', mode: FileMode.append);
       return (TdiffM, TdiffN);
     }
     
-    Future<void> precentErorjokes() async {
+    Future<void> precentErrorjokes() async {
+      await file.writeAsString('precentErorjokes called \n', mode: FileMode.append);
       
       await joke.jokeAPI("https://v2.jokeapi.dev/joke/Miscellaneous,Pun");
+      await file.writeAsString("jokeAPI called \n", mode: FileMode.append);
       diffM = joke.longestJoke - joke.avregeJoke;
       diffN = joke.shortesdtJoke - joke.avregeJoke;
-
+ 
+      await file.writeAsString("precentErorjokes starting if's \n", mode: FileMode.append);
       if(diffM < 0) {
         diffM = diffM / (0 - 1);
       }
       diffM = diffM / joke.avregeJoke * 100;
-
+ 
       if(diffN < 0) {
         diffN = diffN / (0 - 1);
       }
       diffN = diffN / joke.avregeJoke * 100;
-
+ 
       print("$diffN $diffM");
+      await file.writeAsString("precentErorjokes returnd \n", mode: FileMode.append);
     }
-
+ 
     biggestdiff() async {
-      await precentErorjokes();
-      await precentErorTempes();
-
+      await file.writeAsString("biggestdiff called \n", mode: FileMode.append);
+      await precentErrorjokes();
+      await precentErrorTempes();
+ 
       String who = "";
       num biggestdiff = 0;
-
+ 
+      await file.writeAsString("biggestdiff if's starting \n", mode: FileMode.append);
       if(TdiffM > 0) {
         biggestdiff = TdiffM;
         who = "maxTemp";
       }
-
+ 
       if(TdiffN > 0) {
         biggestdiff = TdiffN;
         who = "minTemp";
       }
-
+ 
       if(diffN > 0) {
         biggestdiff = diffN;
         who = "minJoke";
       }
-
+ 
       if(diffM > 0) {
         biggestdiff = diffM;
         who = "maxJoke";
       }
-
+ 
       print(biggestdiff);
       print(who);
+      await file.writeAsString("biggestdiff returnd \n", mode: FileMode.append);
+    }
+    void cleanLogFile() {
+      file.writeAsStringSync('');
     }
 }
