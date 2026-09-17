@@ -124,19 +124,19 @@ class Read{
       
       await joke.jokeAPI("https://v2.jokeapi.dev/joke/Miscellaneous,Pun");
       await file.writeAsString("jokeAPI called \n", mode: FileMode.append);
-      diffM = joke.longestJoke - joke.avregeJoke;
-      diffN = joke.shortesdtJoke - joke.avregeJoke;
+      diffM = joke.longestJoke - joke.averageJoke;
+      diffN = joke.shortesdtJoke - joke.averageJoke;
  
       await file.writeAsString("precentErorjokes starting if's \n", mode: FileMode.append);
       if(diffM < 0) {
         diffM = diffM / (0 - 1);
       }
-      diffM = diffM / joke.avregeJoke * 100;
+      diffM = diffM / joke.averageJoke * 100;
  
       if(diffN < 0) {
         diffN = diffN / (0 - 1);
       }
-      diffN = diffN / joke.avregeJoke * 100;
+      diffN = diffN / joke.averageJoke * 100;
  
       print("$diffN $diffM");
       await file.writeAsString("precentErorjokes returnd \n", mode: FileMode.append);
