@@ -1,29 +1,34 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 class Joke {
     late num longestJoke;
     late num shortesdtJoke;
     late num avregeJoke;
     late int overallJokes;
 
-    jokeAPI(String url) async {
-        
-          longestJoke = 0;
-          shortesdtJoke = 1000000000000000000;
-          avregeJoke = 0;
-          overallJokes = 0;
+    final File file = File(r"DanielFinalProject\log");
 
-        for(int y = 0; y < 10; y++) {
+    jokeAPI(String url) async {
+        await file.writeAsString("jokeAPI called \n", mode: FileMode.append);
+        longestJoke = 0;
+        shortesdtJoke = 1000000000000000000;
+        avregeJoke = 0;
+        overallJokes = 0;
+        final int wantedAmount = 10;
+
+        for(int y = 0; y < wantedAmount; y++) {
+          await file.writeAsString("for loop in jokeAPI \n", mode: FileMode.append);
           var URL = Uri.parse(url);
           var response = await http.get(URL);
 
           Map<String, dynamic> ApiResponse = jsonDecode(response.body);
           List<String> Keys = ApiResponse.keys.toList();  
           List<dynamic> values = ApiResponse.values.toList();  
-          String joke;
-          joke = "ooo";
+          String joke = "";
 
           for(int b = 0; b < Keys.length; b++) {
+            await file.writeAsString("for loop in jokeAPI \n", mode: FileMode.append);
             if(Keys[b] == "joke") {
               joke = values[b];
               break;
