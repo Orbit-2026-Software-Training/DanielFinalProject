@@ -1,10 +1,11 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+
 class Joke {
     late num longestJoke;
     late num shortesdtJoke;
-    late num avregeJoke;
+    late num averageJoke;
     late int overallJokes;
 
     final File file = File(r"DanielFinalProject\log");
@@ -13,7 +14,7 @@ class Joke {
         await file.writeAsString("jokeAPI called \n", mode: FileMode.append);
         longestJoke = 0;
         shortesdtJoke = 1000000000000000000;
-        avregeJoke = 0;
+        averageJoke = 0;
         overallJokes = 0;
         final int wantedAmount = 10;
 
@@ -43,7 +44,7 @@ class Joke {
           overallJokes += joke.length;
         }
 
-        avregeJoke = (overallJokes / 10);
+        averageJoke = (overallJokes / 10);
         /*print(avregeJoke);
         print(longestJoke);
         print(shortestJoke);*/
